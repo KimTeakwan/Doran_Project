@@ -1,0 +1,28 @@
+# --- 1. Python / 가상환경 ---
+# 가상환경 폴더. (.venv/ 또는 venv/ 등)
+.venv/
+venv/
+
+# 파이썬 캐시 파일
+*.pyc
+__pycache__/
+
+# --- 2. Django ---
+# 기본 데이터베이스 (개발용)
+*.sqlite3
+db.sqlite3
+
+# 미디어 파일 (사용자가 업로드한 파일)
+media/
+
+# 정적 파일 (CSS, JS) - 배포 시 생성되는 파일
+# (주의: app/static/ 안의 파일은 포함되어야 함)
+staticfiles/
+
+# --- 3. IDE (PyCharm) ---
+# 파이참 설정 폴더 (매우 중요)
+.idea/
+
+# --- 4. OS (Mac) ---
+# 맥 OS 시스템 파일
+.DS_Store
