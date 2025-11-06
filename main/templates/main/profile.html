@@ -1,5 +1,34 @@
 {% extends 'main/base.html' %}
+{% load static %}
 
 {% block content %}
-<h1>프로필</h1>
+<div class="profile-container">
+    <div class="profile-header">
+        <div class="profile-banner">
+            <img src="{{ user.banner_url }}" alt="Banner">
+        </div>
+        <div class="profile-picture">
+            <img src="{{ user.profile_picture_url }}" alt="Profile Picture">
+        </div>
+        <div class="profile-actions">
+            <button class="edit-profile-button">Edit profile</button>
+        </div>
+    </div>
+    <div class="profile-info">
+        <h2 class="profile-name">{{ user.name }}</h2>
+        <p class="profile-username">{{ user.username }}</p>
+        <p class="profile-bio">{{ user.bio }}</p>
+        <div class="profile-stats">
+            <span><strong>{{ user.following }}</strong> Following</span>
+            <span><strong>{{ user.followers }}</strong> Followers</span>
+        </div>
+    </div>
+    <div class="profile-tabs">
+        <a href="#" class="profile-tab active">Posts</a>
+        <a href="#" class="profile-tab">Replies</a>
+        <a href="#" class="profile-tab">Highlights</a>
+        <a href="#" class="profile-tab">Media</a>
+        <a href="#" class="profile-tab">Likes</a>
+    </div>
+</div>
 {% endblock %}
