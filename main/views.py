@@ -39,28 +39,15 @@ def index(request):
     return render(request, 'main/index.html', context)
 
 def signup_view(request):
-    """Handle user signup with email verification."""
+    """Handle user signup."""
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.is_active = False  # Deactivate account until email confirmation
+            user.is_active = True # 사용자를 바로 활성화
             user.save()
-
-            # Send activation email
-            current_site = get_current_site(request)
-            mail_subject = '[Doran] 회원가입 인증 메일입니다.'
-            message = render_to_string('main/activation_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': default_token_generator.make_token(user),
-            })
-            to_email = form.cleaned_data.get('email')
-            email = EmailMessage(mail_subject, message, to=[to_email])
-            email.send()
-
-            return render(request, 'main/registration_complete.html')
+            login(request, user) # 회원가입 후 바로 로그인
+            return redirect('index')
     else:
         form = CustomUserCreationForm()
     return render(request, 'main/signup.html', {'form': form})
