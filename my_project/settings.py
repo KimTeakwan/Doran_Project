@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',  # 'develope' 브랜치에서 추가됨
     'main',
 ]
 
@@ -103,9 +104,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko-kr' # 'develope' 브랜치에서 수정됨
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul' # 'develope' 브랜치에서 수정됨
 
 USE_I18N = True
 
@@ -122,8 +123,15 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# 사용자가 업로드한 파일(미디어)을 처리할 URL과 실제 경로
+# --- 충돌 해결: 'develope'과 'makePost'의 설정을 모두 합침 ---
+
+# 'develope'의 이메일/사이트 설정
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+SITE_ID = 1
+
+# 'makePost'의 미디어/로그인 URL 설정
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
 LOGIN_URL = 'login'
+
+# --- 충돌 해결 완료 ---
