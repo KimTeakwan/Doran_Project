@@ -1,22 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Post
+from .forms import PostForm
 
 def index(request):
-    posts = [
-        {
-            'username': 'sikboyyy',
-            'profile_picture': '/static/main/img/user1.png', # Assuming user will add profile1.jpg
-            'image_url': '/static/main/img/aa.jpg', # Assuming user will add post1.jpg
-            'likes': 1234,
-            'caption': '나 좀 잘생긴 거 같아.'
-        },
-        {
-            'username': 'sikboyyy',
-            'profile_picture': '/static/main/img/user1.png', # Assuming user will add profile2.jpg
-            'image_url': '/static/main/img/bb.jpg', # Assuming user will add post2.jpg
-            'likes': 567,
-            'caption': '이건 좀 귀여운듯.'
-        }
-    ]
+    posts = Post.objects.all().order_by('-created_at')
     context = {'posts': posts}
     return render(request, 'main/index.html', context)
 
@@ -29,8 +17,20 @@ def messages(request):
 def notifications(request):
     return render(request, 'main/notifications.html')
 
+@login_required
 def create(request):
-    return render(request, 'main/create.html')
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect('index')
+    else:
+        form = PostForm()
+    
+    context = {'form': form}
+    return render(request, 'main/create.html', context)
 
 def profile(request):
     return render(request, 'main/profile.html')
